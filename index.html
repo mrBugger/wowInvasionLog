@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Event Tracker (Dark Mode)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --bg: #0f1115;
+      --panel: #151922;
+      --panel-2: #1b2030;
+      --text: #e6e6ea;
+      --muted: #9aa0aa;
+      --primary: #3b82f6;
+      --accent: #7c3aed;
+      --danger: #ef4444;
+      --success: #22c55e;
+      --border: #263042;
+      --hover: #233048;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      margin: 0;
+    }
+
+    .app {
+      max-width: 980px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-right: auto;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      gap: 12px;
+    }
+
+    label {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-right: 8px;
+    }
+
+    select, button {
+      background: #101521;
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      outline: none;
+    }
+
+    select:hover, button:hover {
+      background: var(--hover);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .table thead th {
+      text-align: left;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      letter-spacing: 0.02em;
+      font-size: 0.9rem;
+    }
+
+    .table tbody td {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .row-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .end-btn {
+      background: #1b2436;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    .end-btn:hover { background: var(--hover); }
+
+    .end-btn.ready { border-color: var(--primary); }
+    .end-btn.done {
+      background: #0f1524;
+      border-color: #2b3a57;
+      color: var(--muted);
+      cursor: default;
+    }
+
+    .add-row {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      font-weight: 700;
+      font-size: 20px;
+      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
+    }
+    .add-row:hover { filter: brightness(1.08); }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #12182a;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.9rem;
+      white-space: nowrap;
+    }
+
+    .timestamp {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.02em;
+    }
+
+    .cooldown {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.02em;
+      color: #a2b1ff;
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+    }
+
+    .layer-select { min-width: 110px; }
+    .location-select { min-width: 220px; }
+
+    .help {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 720px) {
+      .location-select { min-width: 160px; }
+      .table thead { display: none; }
+      .table tbody tr {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-row-gap: 8px;
+        padding: 12px 16px;
+      }
+      .table tbody td {
+        border: none;
+        padding: 4px 0;
+      }
+      .footer { justify-content: space-between; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <div class="title">Event tracker</div>
+    </div>
+
+    <div class="card">
+      <div class="toolbar">
+        <label for="layer">Layer</label>
+        <select id="layer" class="layer-select">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+        <span class="help">Select the layer, then add rows for locations and track Start, End, and Cooldown.</span>
+      </div>
+
+      <table class="table" aria-label="Event table">
+        <thead>
+          <tr>
+            <th>Location</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Cooldown</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+        <tfoot>
+          <tr>
+            <td class="footer" colspan="4">
+              <button id="addRowBtn" class="add-row" title="Add row">+</button>
+              <span class="help">Add another row to track a new location.</span>
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Config
+    const LOCATIONS = [
+      "Tanaris",
+      "Burning Steppes",
+      "Winterspring",
+      "Blasted Lands",
+      "Azshara",
+      "Eastern Plaguelands"
+    ];
+    const COOLDOWN_SECONDS = 3 * 60 * 60; // 3 hours
+
+    // State per row
+    const rowStates = new Map(); // key: rowId -> { start: Date|null, end: Date|null, cdRemaining: number, intervalId: number|null }
+
+    const rowsEl = document.getElementById('rows');
+    const addRowBtn = document.getElementById('addRowBtn');
+
+    addRowBtn.addEventListener('click', () => createRow());
+
+    // Helpers
+    function now() {
+      return new Date();
+    }
+    function fmtTime(date) {
+      const hh = String(date.getHours()).padStart(2, '0');
+      const mm = String(date.getMinutes()).padStart(2, '0');
+      const ss = String(date.getSeconds()).padStart(2, '0');
+      return `${hh}:${mm}:${ss}`;
+    }
+    function fmtHMS(seconds) {
+      const s = Math.max(0, Math.floor(seconds));
+      const hh = String(Math.floor(s / 3600)).padStart(2, '0');
+      const mm = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
+      const ss = String(s % 60).padStart(2, '0');
+      return `${hh}:${mm}:${ss}`;
+    }
+    function stopInterval(state) {
+      if (state.intervalId) {
+        clearInterval(state.intervalId);
+        state.intervalId = null;
+      }
+    }
+
+    let rowCounter = 0;
+
+    function createRow() {
+      const rowId = `row-${++rowCounter}`;
+      const tr = document.createElement('tr');
+
+      // Location cell
+      const tdLoc = document.createElement('td');
+      const locSelect = document.createElement('select');
+      locSelect.className = 'location-select';
+      locSelect.innerHTML = `<option value="" disabled selected>Select location</option>` +
+        LOCATIONS.map(l => `<option value="${l}">${l}</option>`).join('');
+      tdLoc.appendChild(locSelect);
+
+      // Start cell
+      const tdStart = document.createElement('td');
+      const startPill = document.createElement('span');
+      startPill.className = 'pill timestamp';
+      startPill.textContent = '—';
+      tdStart.appendChild(startPill);
+
+      // End cell
+      const tdEnd = document.createElement('td');
+      const endBtn = document.createElement('button');
+      endBtn.className = 'end-btn';
+      endBtn.textContent = 'End';
+      endBtn.disabled = true; // enabled after Start
+      tdEnd.appendChild(endBtn);
+
+      // Cooldown cell
+      const tdCd = document.createElement('td');
+      const cdSpan = document.createElement('span');
+      cdSpan.className = 'cooldown';
+      cdSpan.textContent = '—';
+      tdCd.appendChild(cdSpan);
+
+      tr.appendChild(tdLoc);
+      tr.appendChild(tdStart);
+      tr.appendChild(tdEnd);
+      tr.appendChild(tdCd);
+      rowsEl.appendChild(tr);
+
+      // Initialize state
+      const state = { start: null, end: null, cdRemaining: 0, intervalId: null };
+      rowStates.set(rowId, state);
+
+      // Event handlers
+      locSelect.addEventListener('change', () => {
+        // Set start time on selection
+        state.start = now();
+        startPill.textContent = fmtTime(state.start);
+        endBtn.disabled = false;
+        endBtn.classList.add('ready');
+
+        // Reset any previous end/cooldown
+        state.end = null;
+        stopInterval(state);
+        state.cdRemaining = 0;
+        cdSpan.textContent = '—';
+        endBtn.textContent = 'End';
+        endBtn.classList.remove('done');
+      });
+
+      endBtn.addEventListener('click', () => {
+        if (endBtn.disabled) return;
+        // Capture end timestamp
+        state.end = now();
+        endBtn.textContent = fmtTime(state.end);
+        endBtn.classList.remove('ready');
+        endBtn.classList.add('done');
+        endBtn.disabled = true;
+
+        // Start 3-hour cooldown
+        state.cdRemaining = COOLDOWN_SECONDS;
+        cdSpan.textContent = fmtHMS(state.cdRemaining);
+
+        stopInterval(state);
+        state.intervalId = setInterval(() => {
+          state.cdRemaining -= 1;
+          if (state.cdRemaining <= 0) {
+            state.cdRemaining = 0;
+            cdSpan.textContent = '00:00:00';
+            stopInterval(state);
+            cdSpan.style.color = getComputedStyle(document.documentElement).getPropertyValue('--success') || '#22c55e';
+          } else {
+            cdSpan.textContent = fmtHMS(state.cdRemaining);
+          }
+        }, 1000);
+      });
+    }
+
+    // Create initial row
+    createRow();
+  </script>
+</body>
+</html>
+```
