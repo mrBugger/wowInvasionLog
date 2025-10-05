@@ -62,6 +62,7 @@
         <select id="layer">
           <option value="1">1</option><option value="2">2</option><option value="3">3</option>
         </select>
+        <button id="resetBtn">Reset</button>
       </div>
       <table class="table">
         <thead><tr><th>Location</th><th>Start</th><th>End</th><th>Cooldown</th></tr></thead>
@@ -76,6 +77,7 @@
     const COOLDOWN_SECONDS = 3*60*60;
     const rowsEl = document.getElementById('rows');
     const addRowBtn = document.getElementById('addRowBtn');
+    const resetBtn = document.getElementById('resetBtn');
     const rowStates = new Map();
     let rowCounter = 0;
 
@@ -137,6 +139,15 @@
     }
 
     addRowBtn.addEventListener("click",()=>{createRow();saveState();});
+
+    resetBtn.addEventListener("click",()=>{
+      rowStates.clear();
+      localStorage.removeItem("invasionLog");
+      rowsEl.innerHTML="";
+      rowCounter=0;
+      createRow();
+    });
+
     loadState();
     if(rowsEl.children.length===0) createRow();
   </script>
