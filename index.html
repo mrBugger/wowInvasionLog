@@ -12,268 +12,133 @@
       --text: #e6e6ea;
       --muted: #9aa0aa;
       --primary: #3b82f6;
-      --accent: #7c3aed;
-      --danger: #ef4444;
       --success: #22c55e;
       --border: #263042;
       --hover: #233048;
     }
 
-    html {
-      font-size: 120%; /* scale all fonts up by ~20% */
-    }
-
-    html, body {
-      height: 100%;
+    html { font-size: 120%; }
+    body {
       background: var(--bg);
       color: var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      font-family: system-ui, sans-serif;
       margin: 0;
     }
-
-    .app {
-      max-width: 980px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    .header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin-right: auto;
-    }
-
+    .app { max-width: 980px; margin: 40px auto; padding: 0 20px; }
+    .header { display: flex; align-items: center; margin-bottom: 16px; }
+    .title { font-size: 1.5rem; font-weight: 600; }
     .card {
       background: linear-gradient(180deg, var(--panel), var(--panel-2));
       border: 1px solid var(--border);
       border-radius: 14px;
       overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
     }
-
-    .toolbar {
-      display: flex;
-      align-items: center;
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--border);
-      gap: 12px;
-    }
-
-    label {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin-right: 8px;
-    }
-
+    .toolbar { display: flex; align-items: center; padding: 14px 16px; border-bottom: 1px solid var(--border); gap: 12px; }
     select, button {
-      background: #101521;
-      color: var(--text);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 0.95rem;
-      outline: none;
+      background: #101521; color: var(--text); border: 1px solid var(--border);
+      border-radius: 10px; padding: 8px 12px; font-size: 1rem;
     }
-
-    select:hover, button:hover {
-      background: var(--hover);
-    }
-
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .table thead th {
-      text-align: left;
-      font-weight: 600;
-      color: var(--muted);
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border);
-      letter-spacing: 0.02em;
-      font-size: 0.9rem;
-    }
-
-    .table tbody td {
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--border);
-      vertical-align: middle;
-    }
-
-    .end-btn {
-      background: #1b2436;
-      border: 1px solid var(--border);
-      color: var(--text);
-      border-radius: 10px;
-      padding: 8px 12px;
-      cursor: pointer;
-      transition: background 0.15s ease;
-    }
-    .end-btn:hover { background: var(--hover); }
+    select:hover, button:hover { background: var(--hover); }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .table { width: 100%; border-collapse: collapse; }
+    .table th, .table td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
+    .table th { color: var(--muted); text-align: left; }
     .end-btn.ready { border-color: var(--primary); }
-    .end-btn.done {
-      background: #0f1524;
-      border-color: #2b3a57;
-      color: var(--muted);
-      cursor: default;
-    }
-
+    .end-btn.done { color: var(--muted); }
     .add-row {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
-      background: var(--primary);
-      color: white;
-      border: none;
-      font-weight: 700;
-      font-size: 20px;
-      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.35);
+      background: var(--primary); color: white; border: none; border-radius: 10px;
+      width: 36px; height: 36px; font-size: 20px; font-weight: bold;
     }
-    .add-row:hover { filter: brightness(1.08); }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: #12182a;
-      border: 1px solid var(--border);
-      color: var(--text);
-      font-size: 0.9rem;
-      white-space: nowrap;
-    }
-
-    .timestamp {
-      font-variant-numeric: tabular-nums;
-      letter-spacing: 0.02em;
-    }
-
-    .cooldown {
-      font-variant-numeric: tabular-nums;
-      letter-spacing: 0.02em;
-      color: #a2b1ff;
-    }
-
-    .footer {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-    }
-
-    .layer-select { min-width: 110px; }
-    .location-select { min-width: 220px; }
-
-    .help {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin-top: 10px;
-    }
-
-    @media (max-width: 720px) {
-      .location-select { min-width: 160px; }
-      .table thead { display: none; }
-      .table tbody tr {
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-row-gap: 8px;
-        padding: 12px 16px;
-      }
-      .table tbody td {
-        border: none;
-        padding: 4px 0;
-      }
-      .footer { justify-content: space-between; }
-    }
+    .pill { background: #12182a; border: 1px solid var(--border); border-radius: 999px; padding: 6px 10px; }
+    .cooldown { color: #a2b1ff; font-variant-numeric: tabular-nums; }
   </style>
 </head>
 <body>
   <div class="app">
-    <div class="header">
-      <div class="title">Invasion Log</div>
-    </div>
-
+    <div class="header"><div class="title">Invasion Log</div></div>
     <div class="card">
       <div class="toolbar">
         <label for="layer">Layer</label>
-        <select id="layer" class="layer-select">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
+        <select id="layer">
+          <option value="1">1</option><option value="2">2</option><option value="3">3</option>
         </select>
-        <span class="help">Select the layer, then add rows for locations and track Start, End, and Cooldown.</span>
       </div>
-
-      <table class="table" aria-label="Event table">
-        <thead>
-          <tr>
-            <th>Location</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Cooldown</th>
-          </tr>
-        </thead>
+      <table class="table">
+        <thead><tr><th>Location</th><th>Start</th><th>End</th><th>Cooldown</th></tr></thead>
         <tbody id="rows"></tbody>
-        <tfoot>
-          <tr>
-            <td class="footer" colspan="4">
-              <button id="addRowBtn" class="add-row" title="Add row">+</button>
-              <span class="help">Add another row to track a new location.</span>
-            </td>
-          </tr>
-        </tfoot>
+        <tfoot><tr><td colspan="4"><button id="addRowBtn" class="add-row">+</button></td></tr></tfoot>
       </table>
     </div>
   </div>
 
   <script>
-    const LOCATIONS = [
-      "Tanaris",
-      "Burning Steppes",
-      "Winterspring",
-      "Blasted Lands",
-      "Azshara",
-      "Eastern Plaguelands"
-    ];
-    const COOLDOWN_SECONDS = 3 * 60 * 60; // 3 hours
-
-    const rowStates = new Map();
+    const LOCATIONS = ["Tanaris","Burning Steppes","Winterspring","Blasted Lands","Azshara","Eastern Plaguelands"];
+    const COOLDOWN_SECONDS = 3*60*60;
     const rowsEl = document.getElementById('rows');
     const addRowBtn = document.getElementById('addRowBtn');
+    const rowStates = new Map();
+    let rowCounter = 0;
 
-    addRowBtn.addEventListener('click', () => createRow());
+    function fmtTime(date){return date.toTimeString().split(" ")[0];}
+    function fmtHMS(sec){sec=Math.max(0,sec);let h=String(Math.floor(sec/3600)).padStart(2,"0");let m=String(Math.floor(sec%3600/60)).padStart(2,"0");let s=String(sec%60).padStart(2,"0");return `${h}:${m}:${s}`;}
 
-    function now() { return new Date(); }
-    function fmtTime(date) {
-      const hh = String(date.getHours()).padStart(2, '0');
-      const mm = String(date.getMinutes()).padStart(2, '0');
-      const ss = String(date.getSeconds()).padStart(2, '0');
-      return `${hh}:${mm}:${ss}`;
+    function saveState(){
+      const data=[];
+      rowStates.forEach((st,id)=>{
+        data.push({
+          id, location:st.location||"", start:st.start?st.start.getTime():null,
+          end:st.end?st.end.getTime():null, targetFinish:st.targetFinish||null
+        });
+      });
+      localStorage.setItem("invasionLog",JSON.stringify(data));
     }
-    function fmtHMS(seconds) {
-      const s = Math.max(0, Math.floor(seconds));
-      const hh = String(Math.floor(s / 3600)).padStart(2, '0');
-      const mm = String(Math.floor((s % 3600) / 60)).padStart(2, '0');
-      const ss = String(s % 60).padStart(2, '0');
-      return `${hh}:${mm}:${ss}`;
+
+    function loadState(){
+      const saved=localStorage.getItem("invasionLog"); if(!saved) return;
+      JSON.parse(saved).forEach(r=>{
+        const tr=createRow();
+        const st=rowStates.get(tr.dataset.id);
+        if(r.location){tr.querySelector("select").value=r.location;st.location=r.location;}
+        if(r.start){st.start=new Date(r.start);tr.querySelector(".start").textContent=fmtTime(st.start);}
+        if(r.end){
+          st.end=new Date(r.end);
+          const btn=tr.querySelector(".end-btn");
+          btn.textContent=fmtTime(st.end);btn.disabled=true;
+          st.targetFinish=r.targetFinish;
+          resumeCooldown(st,tr.querySelector(".cooldown"));
+        }
+      });
     }
-      </script>
+
+    function resumeCooldown(state,cdSpan){
+      if(!state.targetFinish) return;
+      function tick(){
+        const remaining=Math.floor((state.targetFinish-Date.now())/1000);
+        if(remaining<=0){cdSpan.textContent="00:00:00";clearInterval(state.intervalId);cdSpan.style.color="var(--success)";}
+        else{cdSpan.textContent=fmtHMS(remaining);}
+      }
+      tick();
+      state.intervalId=setInterval(()=>{tick();saveState();},1000);
+    }
+
+    function createRow(){
+      const tr=document.createElement("tr");const id="row-"+(++rowCounter);tr.dataset.id=id;
+      const tdLoc=document.createElement("td");const sel=document.createElement("select");
+      sel.innerHTML=`<option disabled selected>Select</option>`+LOCATIONS.map(l=>`<option>${l}</option>`).join("");tdLoc.appendChild(sel);
+      const tdStart=document.createElement("td");const startSpan=document.createElement("span");startSpan.className="start pill";startSpan.textContent="—";tdStart.appendChild(startSpan);
+      const tdEnd=document.createElement("td");const endBtn=document.createElement("button");endBtn.className="end-btn";endBtn.textContent="End";endBtn.disabled=true;tdEnd.appendChild(endBtn);
+      const tdCd=document.createElement("td");const cdSpan=document.createElement("span");cdSpan.className="cooldown";cdSpan.textContent="—";tdCd.appendChild(cdSpan);
+      tr.append(tdLoc,tdStart,tdEnd,tdCd);rowsEl.appendChild(tr);
+      const state={location:null,start:null,end:null,targetFinish:null,intervalId:null};rowStates.set(id,state);
+
+      sel.addEventListener("change",()=>{state.location=sel.value;state.start=new Date();startSpan.textContent=fmtTime(state.start);endBtn.disabled=false;saveState();});
+      endBtn.addEventListener("click",()=>{if(endBtn.disabled) return;state.end=new Date();endBtn.textContent=fmtTime(state.end);endBtn.disabled=true;state.targetFinish=state.end.getTime()+COOLDOWN_SECONDS*1000;resumeCooldown(state,cdSpan);saveState();});
+      return tr;
+    }
+
+    addRowBtn.addEventListener("click",()=>{createRow();saveState();});
+    loadState();
+    if(rowsEl.children.length===0) createRow();
+  </script>
 </body>
 </html>
-   
